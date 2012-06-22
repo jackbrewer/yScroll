@@ -9,54 +9,80 @@
 
 (function ($) {
 
-	$.fn.yScroll = function (parameters) {
+  $('.ys').each(function () {
 
-		var properties,
-				element = $(this),
-				elementPos,
-				yPos,
-				yUnit,
-				progess,
-				yOffset;
+    var $this = $(this)
+      , options =
+        { speed: $this.data('ys-speed') || 0.5
+        , invert: $this.data('ys-invert') || false }
+      , latestKnownScrollY = 0
+      , ticking = false
+      , prevPosition = $this.css('backgroundPosition').split(' ')
+      , prevPositionY = parseInt(prevPosition[1], 10)
+      , prevPositionYUnit = prevPosition[1].match(/px|%|pt|em|rem/)[0];
 
-		// Set Default Values
-		var defaults = {
-			speed: 2,
-			invert: false
-		};
+    // On scroll, reset the scrollY value and request tick
+    function onScroll() {
+      latestKnownScrollY = window.scrollY;
+      requestTick();
+    }
 
-		properties = $.extend(defaults, parameters);
+    // We check
+    function requestTick() {
+      // This ticking system prevents animation frames from triggering our
+      // update event when the scrollY value has not changed.
+      if(!ticking) {
+        window.requestAnimationFrame(update);
+      }
 
-		// Get background position and split x and y values
-		elementPos = element.css('background-position').split(' ');
+      ticking = true;
+    }
 
-		// Separate y value from unit
-		yPos = parseInt(elementPos[1], 10);
-		yUnit = elementPos[1].replace(/[0-9.-]/g, '');
+    function update() {
+      // Reset the tick so we can capture the next onScroll
+      ticking = false;
 
-		// When the page is scrolled
-		$(window).scroll( function(){
+      var currentScrollY = latestKnownScrollY;
 
-			var $this = $(this),
-					progress,
-					yOffset;
+      $this.css({
+        backgroundPosition: function () {
 
-			// Record how far the page has scrolled
-			progress = $this.scrollTop();
+          var newPositionY;
 
-			// Calculate how far to move background position based on distance scrolled and chosen speed
-			if( properties.invert ){
-				// Move background-position down
-				yOffset = yPos + (progress * properties.speed);
-			} else {
-				// Move background-position up
-				yOffset = yPos - (progress * properties.speed);
-			}
+          // If the background position unit is percentages, we must calculate
+          // the currentScrollY relative to the height of the document.
+          if (prevPositionY && prevPositionYUnit === '%') {
+            currentScrollY = ((currentScrollY / ($('body').height() - $(window).height())) * 100);
+          }
 
-			// Recreate new y value and unit, reintroduce existing x position
-			element.css('background-position', elementPos[0] + ' ' + yOffset + yUnit);
+          // Calculate the new position
+          newPositionY = (currentScrollY * options.speed);
 
-		});
-	};
+          // Reverse the value if invert is true
+          if (options.invert === true) {
+           newPositionY = newPositionY * -1;
+          }
 
-})($);
+          if (prevPositionY) {
+            // Negative margins actually work opposite to negative pixels, so we
+            // have to reverse them.
+            if (prevPositionYUnit === '%') {
+              newPositionY = newPositionY * -1;
+            }
+
+            // If there is a predefined background position on the Y axis for
+            // this element, make sure we include it into the calculation.
+            newPositionY = prevPositionY + newPositionY;
+          }
+
+          return (prevPosition[0] + ' ' + (newPositionY + prevPositionYUnit));
+
+        }
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, false);
+
+  });
+
+}(jQuery));
