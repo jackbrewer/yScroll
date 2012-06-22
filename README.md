@@ -2,7 +2,7 @@
 
 yScroll scrolls a background image at a speed relative to the page scroll to create a vertical parallax effect. This effect can be applied to multiple elements.
 
-Unlike other parallax scrollers, this module uses (`requestAnimationFrame`)[http://paulirish.com/2011/requestanimationframe-for-smart-animating/] in place of scroll events for huge performance benefits.
+Unlike other parallax scrollers, this module uses `requestAnimationFrame` (http://paulirish.com/2011/requestanimationframe-for-smart-animating/) in place of scroll events for huge performance benefits.
 
 [See an example](http://oliverjash.github.com/yScroll/).
 
@@ -26,4 +26,4 @@ Then add the `ys` class to your HTML element, and then any of the following sett
 ## Requirements
 
 * jQuery
-* (`requestAnimationFrame` polyfill)[https://gist.github.com/2948322] to work in older browsers
+* `requestAnimationFrame` polyfill (https://gist.github.com/2948322) to work in older browsers
