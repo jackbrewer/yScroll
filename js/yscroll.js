@@ -101,7 +101,7 @@
       });
     }
 
-    $(window).on('scroll', onScroll);
+    $(window).scroll(onScroll);
 
   });
 
