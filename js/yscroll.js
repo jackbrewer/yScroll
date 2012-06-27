@@ -41,7 +41,7 @@
 
     // On scroll, reset the scrollY value and request tick
     function onScroll() {
-      latestKnownScrollY = window.scrollY;
+      latestKnownScrollY = $(window).scrollTop();
       requestTick();
     }
 
@@ -99,7 +99,7 @@
       });
     }
 
-    window.addEventListener('scroll', onScroll, false);
+    $(window).scroll(onScroll);
 
   });
 
