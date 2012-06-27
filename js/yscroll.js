@@ -17,9 +17,27 @@
         , invert: $this.data('ys-invert') || false }
       , latestKnownScrollY = 0
       , ticking = false
-      , prevPosition = $this.css('backgroundPosition').split(' ')
-      , prevPositionY = parseInt(prevPosition[1], 10)
-      , prevPositionYUnit = prevPosition[1].match(/px|%|pt|em|rem/)[0];
+      , prevPosition = $this.css('backgroundPosition')
+      , prevPositionX
+      , prevPositionY
+      , prevPositionXUnit
+      , prevPositionYUnit
+      ;
+
+    if (prevPosition) {
+      prevPosition = prevPosition.split(' ');
+      prevPositionX = prevPosition[0];
+      prevPositionY = prevPosition[1];
+    } else {
+      prevPositionX = $this.css('backgroundPositionX');
+      prevPositionY = $this.css('backgroundPositionY');
+    }
+
+    prevPositionXUnit = (prevPositionX) ? prevPositionX.match(/px|%|pt|em|rem/)[0] : 'px';
+    prevPositionYUnit = (prevPositionY) ? prevPositionY.match(/px|%|pt|em|rem/)[0] : 'px';
+
+    prevPositionX = parseInt(prevPositionX, 10);
+    prevPositionY = parseInt(prevPositionY, 10);
 
     // On scroll, reset the scrollY value and request tick
     function onScroll() {
