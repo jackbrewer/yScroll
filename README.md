@@ -4,7 +4,7 @@ yScroll scrolls a background image at a speed relative to the page scroll to cre
 
 Unlike other parallax scrollers, this module uses `requestAnimationFrame` (http://paulirish.com/2011/requestanimationframe-for-smart-animating/) in place of scroll events for huge performance benefits.
 
-[See an example](http://oliverjash.github.com/yScroll/).
+[See an example](http://jackbrewer.github.com/yScroll/).
 
 ## Usage
 
