@@ -11,7 +11,7 @@ Unlike other parallax scrollers, this module uses `requestAnimationFrame` (http:
 Apply your background image using CSS:
 
     body {
-      background-image: url("../images/blue-bg.svg");
+      background-image: url('../images/body.svg');
       background-attachment: fixed;
     }
 
