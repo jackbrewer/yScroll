@@ -3,7 +3,7 @@
  *
  * @copyright Jack Brewer 2012
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
- * @author Jack Brewer <jack@jackbrewer.co.uk> (improved by Oliver Joseph Ash <oliverash@me.com>)
+ * @author Jack Brewer <jack@jackbrewer.co.uk> and Oliver Joseph Ash <oliverash@me.com>
  * @version 1.0
  */
 
