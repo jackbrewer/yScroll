@@ -11,7 +11,7 @@ Unlike other parallax scrollers, this module uses `requestAnimationFrame` (http:
 Apply your background image using CSS:
 
     body {
-      background-image: url("../images/blue-bg.svg");
+      background-image: url('../images/body.svg');
       background-attachment: fixed;
     }
 
@@ -22,6 +22,8 @@ Then add the `ys` class to your HTML element, and then any of the following sett
     </body>
 
 **Speed** is relative to the user's scrolling (default is `0.5`). **Invert** is a boolean which specifies whether the effect should be inverted (default is `false`).
+
+Note that in some legacy browsers, percentage background positions are problematic because jQuery converts them to false percentages. There is most likely no fix for this.
 
 ## Requirements
 
