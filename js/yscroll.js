@@ -3,7 +3,7 @@
  *
  * @copyright Jack Brewer 2012
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
- * @author Jack Brewer <jack@jackbrewer.co.uk>
+ * @author Jack Brewer <jack@jackbrewer.co.uk> (improved by Oliver Joseph Ash <oliverash@me.com>)
  * @version 1.0
  */
 
@@ -17,13 +17,31 @@
         , invert: $this.data('ys-invert') || false }
       , latestKnownScrollY = 0
       , ticking = false
-      , prevPosition = $this.css('backgroundPosition').split(' ')
-      , prevPositionY = parseInt(prevPosition[1], 10)
-      , prevPositionYUnit = prevPosition[1].match(/px|%|pt|em|rem/)[0];
+      , prevPosition
+      , prevPositionX
+      , prevPositionY
+      , prevPositionXUnit
+      , prevPositionYUnit
+      ;
+
+    if (Modernizr.bgpositionxy) {
+      prevPositionX = $this.css('backgroundPositionX');
+      prevPositionY = $this.css('backgroundPositionY');
+    } else {
+      prevPosition = $this.css('backgroundPosition').split(' ');
+      prevPositionX = prevPosition[0];
+      prevPositionY = prevPosition[1];
+    }
+
+    prevPositionXUnit = (prevPositionX) ? prevPositionX.match(/px|%|pt|em|rem/)[0] : 'px';
+    prevPositionYUnit = (prevPositionY) ? prevPositionY.match(/px|%|pt|em|rem/)[0] : 'px';
+
+    prevPositionX = parseInt(prevPositionX, 10);
+    prevPositionY = parseInt(prevPositionY, 10);
 
     // On scroll, reset the scrollY value and request tick
     function onScroll() {
-      latestKnownScrollY = window.scrollY;
+      latestKnownScrollY = $(window).scrollTop();
       requestTick();
     }
 
@@ -51,7 +69,7 @@
 
           // If the background position unit is percentages, we must calculate
           // the currentScrollY relative to the height of the document.
-          if (prevPositionY && prevPositionYUnit === '%') {
+          if (prevPositionYUnit === '%') {
             currentScrollY = ((currentScrollY / ($('body').height() - $(window).height())) * 100);
           }
 
@@ -63,25 +81,27 @@
            newPositionY = newPositionY * -1;
           }
 
-          if (prevPositionY) {
-            // Negative margins actually work opposite to negative pixels, so we
-            // have to reverse them.
-            if (prevPositionYUnit === '%') {
-              newPositionY = newPositionY * -1;
-            }
-
-            // If there is a predefined background position on the Y axis for
-            // this element, make sure we include it into the calculation.
-            newPositionY = prevPositionY + newPositionY;
+          // Negative margins actually work opposite to negative pixels, so we
+          // have to reverse them.
+          if (prevPositionYUnit === '%') {
+            newPositionY = newPositionY * -1;
           }
 
-          return (prevPosition[0] + ' ' + (newPositionY + prevPositionYUnit));
+          // If there is a predefined background position on the Y axis for
+          // this element, make sure we include it into the calculation.
+          if (prevPositionY) {
+            newPositionY = prevPositionY + newPositionY;
+          } else {
+            prevPositionYUnit = 'px';
+          }
+
+          return ((prevPositionX + prevPositionXUnit) + ' ' + (newPositionY + prevPositionYUnit));
 
         }
       });
     }
 
-    window.addEventListener('scroll', onScroll, false);
+    $(window).on('scroll', onScroll);
 
   });
 
