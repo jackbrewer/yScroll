@@ -4,7 +4,7 @@ html, body, .wrapper {
 
 html {
   background-image: url('../images/bg.gif');
-  background-position: 0px 0px;
+  background-position: 0 0;
   background-color: white;
 }
 
@@ -15,7 +15,7 @@ body {
   line-height: 1.5;
   background-image: url('../images/body.png');
   background-repeat: repeat-x;
-  background-position: 50% 0px;
+  background-position: 0 0;
 }
 
 .wrapper {
@@ -23,7 +23,7 @@ body {
   padding: 1em;
   background-image: url('../images/illustration.png');
   background-repeat: no-repeat;
-  background-position: 100% 5%;
+  background-position: 10px 5%;
 }
 
 .container {
