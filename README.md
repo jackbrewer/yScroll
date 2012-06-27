@@ -23,6 +23,8 @@ Then add the `ys` class to your HTML element, and then any of the following sett
 
 **Speed** is relative to the user's scrolling (default is `0.5`). **Invert** is a boolean which specifies whether the effect should be inverted (default is `false`).
 
+Note that in some legacy browsers, percentage background positions are problematic because jQuery converts them to false percentages. There is most likely no fix for this.
+
 ## Requirements
 
 * jQuery
