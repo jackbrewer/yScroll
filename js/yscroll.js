@@ -24,14 +24,17 @@
       , prevPositionYUnit
       ;
 
+    // If backgroundPosition was not found, then we assume that non-standard
+    // x and y values can be found instead.
     if (Modernizr.bgpositionxy) {
-      prevPositionX = $this.css('backgroundPositionX');
-      prevPositionY = $this.css('backgroundPositionY');
+      prevPosition = $this.css('backgroundPosition');
     } else {
-      prevPosition = $this.css('backgroundPosition').split(' ');
-      prevPositionX = prevPosition[0];
-      prevPositionY = prevPosition[1];
+      prevPosition = $this.css('backgroundPositionX') + ' ' + $this.css('backgroundPositionY');
     }
+
+    prevPosition = prevPosition.split(' ');
+    prevPositionX = prevPosition[0];
+    prevPositionY = prevPosition[1];
 
     prevPositionXUnit = (prevPositionX) ? prevPositionX.match(/px|%|pt|em|rem/)[0] : 'px';
     prevPositionYUnit = (prevPositionY) ? prevPositionY.match(/px|%|pt|em|rem/)[0] : 'px';
